@@ -1,0 +1,76 @@
+camunda:
+  uri: http://localhost:8080/engine-rest
+
+spring:
+  application:
+    name: camunda-client-app
+  datasource:
+    url: jdbc:h2:mem:camunda-bpm-run;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    # save to file --> url=jdbc:h2:file:./data/demo
+    username: sa
+    password: sa
+  h2:
+    console.enabled: false
+
+  #spring.security.user.name: user
+  #spring.security.user.password: user
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      #when the server runs, the database(table) instance is created. And whenever the server stops, the database table instance is dropped.
+      ddl-auto: create-drop
+    show-sql: false
+    open-in-view: true # disable JPA warning
+
+camunda.bpm:
+  client:
+    base-url: http://localhost:8080/engine-rest #URL of Process Engine
+    lock-duration: 20000 # time in ms & external task will be locked
+#    subscriptions:
+#      submitPaymentRequest:
+#        variable-names: [ ]
+#        process-definition-key: externalTaskClientProcess
+  #  job-execution:
+  #    deployment-aware: true
+  history-level: NONE
+  authorization.enabled: true
+  #  generic-properties:
+  #    properties:
+  #      historyCleanupBatchWindowStartTime: "00:01"
+  #      historyCleanupBatchWindowEndTime: "23:59"
+  #      historyCleanupStrategy: endTimeBased
+  #      history-cleanup-strategy: removalTimeBased
+  #  default-serialization-format: application/json
+  filter.create: All Tasks
+  admin-user:
+    id: admin
+    password: admin
+    firstName: Admin
+
+server.port: 8080
+
+# Logging
+logging.level:
+  root: INFO
+  ##  io.micrometer: INFO
+  ##  org.jboss: INFO
+  ##  org.springframework: INFO
+  ##  org.apache.ibatis: INFO
+  ##  com.zaxxer.hikari: INFO
+  ##  org.hibernate: INFO
+  ##  org.apache.http: INFO
+  #  '[com.cn.camunda.security.filter.webapp]': DEBUG
+  #  org.springframework.security: DEBUG
+  #  org.camunda:
+  #    bpm:
+  #      engine: INFO
+  #      spring: INFO
+  ##      extension:
+  ##        keycloak: INFO
+  #    spin: INFO
+
+  # To log REST controllers
+  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+  # To log web access
+  org.springframework.web: TRACE
