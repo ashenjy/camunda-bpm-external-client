@@ -1,40 +1,61 @@
 camunda:
   uri: http://localhost:8080/engine-rest
 
+camunda.rest-api:
+  jwt:
+    secret-path: /home/ashen/Desktop/Programming/upwork/camunda-ext-task/camunda-microservices/keys/key.pub
+    validator-class: com.cn.camunda.security.config.jwt.ValidatorJwt
+
 spring:
   application:
     name: camunda-client-app
   datasource:
-    url: jdbc:h2:mem:camunda-bpm-run;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    url: jdbc:h2:mem:camunda-bpm-run;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     # save to file --> url=jdbc:h2:file:./data/demo
     username: sa
     password: sa
   h2:
-    console.enabled: false
+    console:
+      enabled: true
+      path: /h2
+
 
   #spring.security.user.name: user
   #spring.security.user.password: user
 
-  jpa:
-    generate-ddl: true
-    hibernate:
-      #when the server runs, the database(table) instance is created. And whenever the server stops, the database table instance is dropped.
-      ddl-auto: create-drop
-    show-sql: false
-    open-in-view: true # disable JPA warning
+#  jpa:
+#    generate-ddl: true
+#    hibernate:
+#      #when the server runs, the database(table) instance is created. And whenever the server stops, the database table instance is dropped.
+#      ddl-auto: create-drop
+#    show-sql: false
+#    open-in-view: true # disable JPA warning
 
 camunda.bpm:
+  authorization.enabled: true
+#  run:
+#    auth:
+#      enabled: true
+#      authentication: basic
+
+  #  run:
+  #    authorization.enabled: true
+  #    cors:
+  #      enabled: true
+  #      allowed-origins: "*"
   client:
     base-url: http://localhost:8080/engine-rest #URL of Process Engine
-    lock-duration: 20000 # time in ms & external task will be locked
-#    subscriptions:
-#      submitPaymentRequest:
-#        variable-names: [ ]
-#        process-definition-key: externalTaskClientProcess
+    basic-auth: # Configure if REST API is secured with basic authentication
+      username: demo
+      password: demo
+#    lock-duration: 20000 # time in ms & external task will be locked
+  #    subscriptions:
+  #      submitPaymentRequest:
+  #        variable-names: [ ]
+  #        process-definition-key: submit-payment-request
   #  job-execution:
   #    deployment-aware: true
-  history-level: NONE
-  authorization.enabled: true
+#  history-level: FULL
   #  generic-properties:
   #    properties:
   #      historyCleanupBatchWindowStartTime: "00:01"
@@ -47,6 +68,12 @@ camunda.bpm:
     id: admin
     password: admin
     firstName: Admin
+#  application:
+#    delete-upon-undeploy: false
+#    scan-for-process-definitions: false
+#    deploy-changed-only: true
+#    resume-previous-versions: true
+#    resume-previous-by: a value
 
 server.port: 8080
 
@@ -60,15 +87,16 @@ logging.level:
   ##  com.zaxxer.hikari: INFO
   ##  org.hibernate: INFO
   ##  org.apache.http: INFO
-  #  '[com.cn.camunda.security.filter.webapp]': DEBUG
-  #  org.springframework.security: DEBUG
-  #  org.camunda:
-  #    bpm:
-  #      engine: INFO
-  #      spring: INFO
-  ##      extension:
-  ##        keycloak: INFO
-  #    spin: INFO
+  '[com.cn.camunda.auth.filter.webapp]': TRACE
+  '[com.cn.camunda.auth.delete.groovy]': DEBUG
+#  org.springframework.security: TRACE
+  org.camunda:
+    bpm:
+      engine: INFO
+      spring: INFO
+    #      extension:
+    #        keycloak: INFO
+    spin: INFO
 
   # To log REST controllers
   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE

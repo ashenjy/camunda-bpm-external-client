@@ -44,7 +44,7 @@
     </dependencyManagement>
 
     <dependencies>
-
+        <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
         <dependency>
             <groupId>com.cn.camunda</groupId>
             <artifactId>bpm-run</artifactId>
@@ -53,19 +53,6 @@
             <type>jar</type>
         </dependency>
 
-        <dependency>
-            <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
-            <version>${camunda.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${springBoot.version}</version>
-        </dependency>
-
-        <!--        Started - Dependencies for camunda openapi-->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
@@ -96,22 +83,11 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-            <version>${openapi-generator-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-
-        <!-- required to use H2 as a file based database  (otherwise it's in-memory) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openapitools</groupId>-->
+<!--            <artifactId>openapi-generator-maven-plugin</artifactId>-->
+<!--            <version>${openapi-generator-version}</version>-->
+<!--        </dependency>-->
 
         <!-- java util logging => slf4j -->
         <dependency>
@@ -149,10 +125,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
