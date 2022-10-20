@@ -1,4 +1,3 @@
-/*
 package com.cn.camunda.external.tasks;
 
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
@@ -32,4 +31,3 @@ public class SubmitPaymentRequest implements ExternalTaskHandler {
         log.log(Level.INFO, "NOPE Rating Genrator External task is completed for Candidate {0} with rating {1}", new Object[]{candidateId, candidateScore});
     }
 }
-*/

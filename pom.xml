@@ -44,13 +44,43 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
+<!--        &lt;!&ndash; Add your own dependencies here, if in compile scope, they are added to the jar &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.cn.camunda</groupId>-->
+<!--            <artifactId>bpm-run</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--            <type>jar</type>-->
+<!--        </dependency>-->
+        <!--Spring Boot-->
+        <!-- required to use H2 as a file based database  (otherwise it's in-memory) -->
         <dependency>
-            <groupId>com.cn.camunda</groupId>
-            <artifactId>bpm-run</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${springBoot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${springBoot.version}</version>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${springBoot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+            <version>${springBoot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
         <dependency>
@@ -94,6 +124,13 @@
 <!--            <version>${openapi-generator-version}</version>-->
 <!--        </dependency>-->
 
+        <!--CAMUNDA CLIENT DEPENDENCIES-->
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
+            <version>${camunda.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.camunda.community</groupId>
             <artifactId>camunda-engine-rest-client-openapi-springboot</artifactId>
@@ -105,6 +142,30 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <!--@Slf4j annot-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
         </dependency>
 
         <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->

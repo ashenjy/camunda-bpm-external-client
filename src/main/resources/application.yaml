@@ -1,4 +1,4 @@
-server.port: 8181
+server.port: 8082
 
 camunda.rest-api:
   jwt:
@@ -29,16 +29,20 @@ spring:
 #      ddl-auto: create-drop
 #    show-sql: false
 #    open-in-view: true # disable JPA warning
+camunda.autoDeploy.enabled: true
+camunda.autoDeploy.bpmnResources: 'classpath*:**/*.bpmn'
+camunda.autoDeploy.dmnResources: 'classpath*:**/*.dmn'
+camunda.autoDeploy.formResources: 'classpath*:**/*.form'
 
 camunda:
   uri: http://localhost:8181/engine-rest
-  autoDeploy.enabled: false
-
-  autoDeploy.bpmnResources: 'classpath*:**/*.bpmn'
-  autoDeploy.dmnResources: 'classpath*:**/*.dmn'
-  autoDeploy.formResources: 'classpath*:**/*.form'
+#  autoDeploy:
+#    enabled: true
+#    bpmnResources: 'classpath*:**/*.bpmn'
+#    dmnResources: 'classpath*:**/*.dmn'
+#    formResources: 'classpath*:**/*.form'
   bpm:
-    authorization.enabled: true
+#    authorization.enabled: true
   #  run:
   #    auth:
   #      enabled: true
@@ -51,9 +55,9 @@ camunda:
     #      allowed-origins: "*"
     client:
       base-url: http://localhost:8181/engine-rest #URL of Process Engine
-      basic-auth: # Configure if REST API is secured with basic authentication
-        username: demo
-        password: demo
+#      basic-auth: # Configure if REST API is secured with basic authentication
+#        username: demo
+#        password: demo
   #    lock-duration: 20000 # time in ms & external task will be locked
     #    subscriptions:
     #      submitPaymentRequest:
@@ -94,13 +98,13 @@ logging.level:
   '[com.cn.camunda.auth.filter.webapp]': TRACE
   '[com.cn.camunda.auth.delete.groovy]': DEBUG
 #  org.springframework.security: TRACE
-  org.camunda:
-    bpm:
-      engine: INFO
-      spring: INFO
+#  org.camunda:
+#    bpm:
+#      engine: INFO
+#      spring: INFO
     #      extension:
     #        keycloak: INFO
-    spin: INFO
+#    spin: INFO
 
   # To log REST controllers
   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
