@@ -28,19 +28,11 @@ public class JwtAuthenticationController {
     @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        if(!manager.userExists(authenticationRequest.getUsername())){
-//            throw new UsernameNotFoundException("User not found with username: " + authenticationRequest.getUsername());
-//        }
-//        final UserDetails userDetails = manager.loadUserByUsername(authenticationRequest.getUsername());
 
         final UserDetails userDetails = jwtInMemoryUserDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());;
@@ -49,21 +41,6 @@ public class JwtAuthenticationController {
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
-
-//    private UserDetails validateCredentials(String username, String password) throws Exception {
-//        UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(username);
-//
-//        if(userDetails != null){
-//            if(userDetails.getPassword().equals(password)){
-//                return userDetails;
-//            }
-//            log.error("ERROR: Password Invalid");
-//            throw new BadCredentialsException("INVALID_CREDENTIALS");
-//        } else {
-//            log.error("ERROR: User not found with username: " + username);
-//            throw new UsernameNotFoundException("User not found with username: " + username);
-//        }
-//    }
 
     private void authenticate(String username, String password) throws Exception {
         Objects.requireNonNull(username);

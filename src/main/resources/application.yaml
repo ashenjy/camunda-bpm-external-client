@@ -1,10 +1,9 @@
-camunda:
-  uri: http://localhost:8080/engine-rest
+server.port: 8181
 
 camunda.rest-api:
   jwt:
     secret-path: /home/ashen/Desktop/Programming/upwork/camunda-ext-task/camunda-microservices/keys/key.pub
-    validator-class: com.cn.camunda.security.config.jwt.ValidatorJwt
+#    validator-class: com.cn.camunda.security.config.jwt.ValidatorJwt
 
 spring:
   application:
@@ -31,51 +30,56 @@ spring:
 #    show-sql: false
 #    open-in-view: true # disable JPA warning
 
-camunda.bpm:
-  authorization.enabled: true
-#  run:
-#    auth:
-#      enabled: true
-#      authentication: basic
+camunda:
+  uri: http://localhost:8181/engine-rest
+  autoDeploy.enabled: false
 
+  autoDeploy.bpmnResources: 'classpath*:**/*.bpmn'
+  autoDeploy.dmnResources: 'classpath*:**/*.dmn'
+  autoDeploy.formResources: 'classpath*:**/*.form'
+  bpm:
+    authorization.enabled: true
   #  run:
-  #    authorization.enabled: true
-  #    cors:
+  #    auth:
   #      enabled: true
-  #      allowed-origins: "*"
-  client:
-    base-url: http://localhost:8080/engine-rest #URL of Process Engine
-    basic-auth: # Configure if REST API is secured with basic authentication
-      username: demo
-      password: demo
-#    lock-duration: 20000 # time in ms & external task will be locked
-  #    subscriptions:
-  #      submitPaymentRequest:
-  #        variable-names: [ ]
-  #        process-definition-key: submit-payment-request
-  #  job-execution:
-  #    deployment-aware: true
-#  history-level: FULL
-  #  generic-properties:
-  #    properties:
-  #      historyCleanupBatchWindowStartTime: "00:01"
-  #      historyCleanupBatchWindowEndTime: "23:59"
-  #      historyCleanupStrategy: endTimeBased
-  #      history-cleanup-strategy: removalTimeBased
-  #  default-serialization-format: application/json
-  filter.create: All Tasks
-  admin-user:
-    id: admin
-    password: admin
-    firstName: Admin
-#  application:
-#    delete-upon-undeploy: false
-#    scan-for-process-definitions: false
-#    deploy-changed-only: true
-#    resume-previous-versions: true
-#    resume-previous-by: a value
+  #      authentication: basic
 
-server.port: 8080
+    #  run:
+    #    authorization.enabled: true
+    #    cors:
+    #      enabled: true
+    #      allowed-origins: "*"
+    client:
+      base-url: http://localhost:8181/engine-rest #URL of Process Engine
+      basic-auth: # Configure if REST API is secured with basic authentication
+        username: demo
+        password: demo
+  #    lock-duration: 20000 # time in ms & external task will be locked
+    #    subscriptions:
+    #      submitPaymentRequest:
+    #        variable-names: [ ]
+    #        process-definition-key: submit-payment-request
+    #  job-execution:
+    #    deployment-aware: true
+  #  history-level: FULL
+    #  generic-properties:
+    #    properties:
+    #      historyCleanupBatchWindowStartTime: "00:01"
+    #      historyCleanupBatchWindowEndTime: "23:59"
+    #      historyCleanupStrategy: endTimeBased
+    #      history-cleanup-strategy: removalTimeBased
+    #  default-serialization-format: application/json
+    filter.create: All Tasks
+    admin-user:
+      id: admin
+      password: admin
+      firstName: Admin
+  #  application:
+  #    delete-upon-undeploy: false
+  #    scan-for-process-definitions: false
+  #    deploy-changed-only: true
+  #    resume-previous-versions: true
+  #    resume-previous-by: a value
 
 # Logging
 logging.level:

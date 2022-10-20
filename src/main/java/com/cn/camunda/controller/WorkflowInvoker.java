@@ -3,13 +3,14 @@ package com.cn.camunda.controller;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.api.ProcessDefinitionApi;
-import org.openapitools.client.model.ProcessInstanceWithVariablesDto;
-import org.openapitools.client.model.StartProcessInstanceDto;
-import org.openapitools.client.model.VariableValueDto;
+import org.camunda.community.rest.client.api.ProcessDefinitionApi;
+import org.camunda.community.rest.client.dto.ProcessInstanceWithVariablesDto;
+import org.camunda.community.rest.client.dto.StartProcessInstanceDto;
+import org.camunda.community.rest.client.dto.VariableValueDto;
+import org.camunda.community.rest.client.invoker.ApiClient;
+import org.camunda.community.rest.client.invoker.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,9 @@ public class WorkflowInvoker {
     @Autowired
     private Gson gsonParser;
 
+    @Value("${camunda.uri}")
+    private String camundaBaseUri;
+
     @PostMapping(
             value = "/start",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -43,6 +47,8 @@ public class WorkflowInvoker {
             //set Basic HTTP Authentication
 //            apiClient.addDefaultHeader("Authorization", getBasicAuthenticationHeader(username, password));
 //            processDefinitionApi.setApiClient(apiClient);
+
+            apiClient.setBasePath(camundaBaseUri);
 
             //set JWT Authentication
             apiClient.addDefaultHeader("Authorization", authToken);
