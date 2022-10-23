@@ -1,8 +1,10 @@
 package com.cn.camunda.controller;
 
+import com.cn.camunda.services.CamundaDeploymentService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.camunda.community.rest.client.api.DeploymentApi;
 import org.camunda.community.rest.client.api.ProcessDefinitionApi;
 import org.camunda.community.rest.client.dto.ProcessInstanceWithVariablesDto;
 import org.camunda.community.rest.client.dto.StartProcessInstanceDto;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.Base64;
 import java.util.Map;
 
@@ -24,10 +27,15 @@ import java.util.Map;
 public class WorkflowInvoker {
 
     @Autowired
-    ProcessDefinitionApi processDefinitionApi;
+    private ProcessDefinitionApi processDefinitionApi;
 
     @Autowired
-    ApiClient apiClient;
+    private ApiClient apiClient;
+
+//    @Autowired
+//    DeploymentApi deploymentApi;
+    @Autowired
+    private CamundaDeploymentService camundaDeploymentService;
 
     @Autowired
     private Gson gsonParser;
@@ -46,13 +54,16 @@ public class WorkflowInvoker {
 
             //set Basic HTTP Authentication
 //            apiClient.addDefaultHeader("Authorization", getBasicAuthenticationHeader(username, password));
-//            processDefinitionApi.setApiClient(apiClient);
-
+//            ApiClient apiClient = new ApiClient();
             apiClient.setBasePath(camundaBaseUri);
-
             //set JWT Authentication
             apiClient.addDefaultHeader("Authorization", authToken);
+
+            //set
             processDefinitionApi.setApiClient(apiClient);
+
+            //TODO: deploy specific process
+            camundaDeploymentService.deployCamundaResources();
 
             Map jsonToMap = gsonParser.fromJson(requestBody, Map.class);
 

@@ -7,9 +7,9 @@ camunda.rest-api:
 
 spring:
   application:
-    name: camunda-client-app
+    name: camunda-external-client-app
   datasource:
-    url: jdbc:h2:mem:camunda-bpm-run;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:camunda-external-client;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     # save to file --> url=jdbc:h2:file:./data/demo
     username: sa
     password: sa
@@ -29,15 +29,15 @@ spring:
 #      ddl-auto: create-drop
 #    show-sql: false
 #    open-in-view: true # disable JPA warning
-camunda.autoDeploy.enabled: true
-camunda.autoDeploy.bpmnResources: 'classpath*:**/*.bpmn'
-camunda.autoDeploy.dmnResources: 'classpath*:**/*.dmn'
-camunda.autoDeploy.formResources: 'classpath*:**/*.form'
+#camunda.autoDeploy.enabled: false
+#camunda.autoDeploy.bpmnResources: 'classpath*:**/*.bpmn'
+#camunda.autoDeploy.dmnResources: 'classpath*:**/*.dmn'
+#camunda.autoDeploy.formResources: 'classpath*:**/*.form'
 
 camunda:
   uri: http://localhost:8181/engine-rest
-#  autoDeploy:
-#    enabled: true
+  autoDeploy:
+    enabled: false
 #    bpmnResources: 'classpath*:**/*.bpmn'
 #    dmnResources: 'classpath*:**/*.dmn'
 #    formResources: 'classpath*:**/*.form'
@@ -58,7 +58,7 @@ camunda:
 #      basic-auth: # Configure if REST API is secured with basic authentication
 #        username: demo
 #        password: demo
-  #    lock-duration: 20000 # time in ms & external task will be locked
+      lock-duration: 20000 # time in ms & external task will be locked
     #    subscriptions:
     #      submitPaymentRequest:
     #        variable-names: [ ]
@@ -97,6 +97,8 @@ logging.level:
   ##  org.apache.http: INFO
   '[com.cn.camunda.auth.filter.webapp]': TRACE
   '[com.cn.camunda.auth.delete.groovy]': DEBUG
+  '[org.camunda.community.rest.client.invoker]': DEBUG
+
 #  org.springframework.security: TRACE
 #  org.camunda:
 #    bpm:
@@ -105,7 +107,8 @@ logging.level:
     #      extension:
     #        keycloak: INFO
 #    spin: INFO
-
+  org.camunda.bpm.extension.rest.client.RuntimeServiceClient: DEBUG
+  org.camunda.bpm.extension.rest.client.RepositoryServiceClient: DEBUG
   # To log REST controllers
   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
   # To log web access

@@ -41,34 +41,34 @@ public class CamundaRESTSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] UNPROTECTED_PATHS = {
             "/actuator/**", // spring actuator endpoints
             "/error", // spring error page
-            "/authenticate" // visible resources, for example for SPA
+//            "/authenticate" // visible resources, for example for SPA
     };
 
 //    private static final String[] PROTECTED_PATHS = {
 //            "/engine-rest/**" // visible resources, for example for SPA
 //    };
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//         configure AuthenticationManager so that it knows from where to load
-//         user for matching credentials
-//         Use BCryptPasswordEncoder
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("demo").password(passwordEncoder().encode("demo")).authorities("ACTUATOR", "camunda-admin").and()
-//                .withUser("john").password(passwordEncoder().encode("john")).authorities("camunda-user");
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+////         configure AuthenticationManager so that it knows from where to load
+////         user for matching credentials
+////         Use BCryptPasswordEncoder
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+////        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("demo").password(passwordEncoder().encode("demo")).authorities("ACTUATOR", "camunda-admin").and()
+////                .withUser("john").password(passwordEncoder().encode("john")).authorities("camunda-user");
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+////        return new BCryptPasswordEncoder();
+//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
