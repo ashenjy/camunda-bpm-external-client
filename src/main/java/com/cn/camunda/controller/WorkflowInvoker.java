@@ -1,5 +1,6 @@
 package com.cn.camunda.controller;
 
+import com.cn.camunda.auth.jwt.util.JwtTokenUtil;
 import com.cn.camunda.services.CamundaDeploymentService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +18,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -32,13 +37,16 @@ public class WorkflowInvoker {
     @Autowired
     private ApiClient apiClient;
 
-//    @Autowired
+    //    @Autowired
 //    DeploymentApi deploymentApi;
     @Autowired
     private CamundaDeploymentService camundaDeploymentService;
 
     @Autowired
     private Gson gsonParser;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Value("${camunda.uri}")
     private String camundaBaseUri;
@@ -49,15 +57,26 @@ public class WorkflowInvoker {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public String start(@PathVariable String key,
                         @RequestBody String requestBody,
-                        @RequestHeader(value = HttpHeaders.AUTHORIZATION) String authToken) throws Exception {
+//                        @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+                        HttpServletRequest httpRequest) throws Exception {
         try {
 
+            String jwtToken = (httpRequest.getHeader("Authorization") == null) ? jwtTokenUtil.parseJwtFromCookie(httpRequest) : httpRequest.getHeader("Authorization");
+
+            if (jwtToken != null) {
+                if (!jwtToken.startsWith("Bearer ")) {
+                    log.warn("Client.WorkflowInvoker.start().JWT Token doesn't start with Bearer ");
+                }
+            }else{
+                log.error("Client.WorkflowInvoker.start().JWT Token required!");
+                //TODO: throw jwt exception - bad request
+            }
             //set Basic HTTP Authentication
 //            apiClient.addDefaultHeader("Authorization", getBasicAuthenticationHeader(username, password));
 //            ApiClient apiClient = new ApiClient();
             apiClient.setBasePath(camundaBaseUri);
             //set JWT Authentication
-            apiClient.addDefaultHeader("Authorization", authToken);
+            apiClient.addDefaultHeader("Authorization", jwtToken);
 
             //set
             processDefinitionApi.setApiClient(apiClient);

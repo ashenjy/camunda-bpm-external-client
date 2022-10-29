@@ -1,23 +1,33 @@
 server.port: 8082
 
-camunda.rest-api:
+application:
   jwt:
     secret-path: /home/ashen/Desktop/Programming/upwork/camunda-ext-task/camunda-microservices/keys/key.pub
-#    validator-class: com.cn.camunda.security.config.jwt.ValidatorJwt
+    expiration-ms: 100000
+    cookie-name: user-service
 
 spring:
   application:
     name: camunda-external-client-app
+#  datasource:
+#    url: jdbc:h2:mem:camunda-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#    # save to file --> url=jdbc:h2:file:./data/demo
+#    username: sa
+#    password: sa
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      #      dialect: org.hibernate.dialect.H2Dialect
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:h2:mem:camunda-external-client;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    # save to file --> url=jdbc:h2:file:./data/demo
-    username: sa
-    password: sa
-  h2:
-    console:
-      enabled: true
-      path: /h2
-
+    url: "jdbc:postgresql://localhost:5432/camunda-services"
+    username: postgres
+    password: root
 
   #spring.security.user.name: user
   #spring.security.user.password: user
